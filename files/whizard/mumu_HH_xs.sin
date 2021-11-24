@@ -1,0 +1,14 @@
+
+#Signal processes
+process mumu_nunuHH = "mu-", "mu+" => numu, numubar, H, H
+process mumu_nunuH  = "mu-", "mu+" => numu, numubar, H
+process mumu_ZHH    = "mu-", "mu+" => Z, H, H              { $restrictions = "1+2 ~ Z" }
+process mumu_ZH     = "mu-", "mu+" => Z, H                 { $restrictions = "1+2 ~ Z" }
+
+#Parameters
+sqrts = 30 TeV
+#n_events = 100000
+#sample_format = lhef
+
+integrate (mumu_nunuHH,mumu_nunuH,mumu_ZHH,mumu_ZH)
+#simulate (mumu_nunuHH,mumu_nunuH,mumu_ZHH,mumu_ZH)

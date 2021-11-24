@@ -1,0 +1,57 @@
+##################
+#Parameters
+##################
+model = SM_Higgs_CKM
+sqrts = 30 TeV
+n_events = 10000
+sample_format = lhef
+
+##################
+#Signal processes
+##################
+
+process mumu_nunuHH = "mu-", "mu+" => numu, numubar, H, H
+process mumu_ZHH    = "mu-", "mu+" => Z, H, H             { $restrictions = "1+2 ~ Z" }
+
+##################
+#Higgs decay
+##################
+process Hbb = H => b, bbar
+process Hgg = H => gl, gl
+
+# All leptonic
+process Hww_tnutnu = H => e3, N3, E3, n3
+process Hww_mnumnu = H => e2, N2, E2, n2
+process Hww_enuenu = H => e1, N1, E1, n1
+
+# Semi-leptonic
+process Hww_enuud  = H => e1, N1, u, dbar
+process Hww_mnuud  = H => e2, N2, u, dbar
+process Hww_tnuud  = H => e3, N3, u, dbar
+process Hww_enucs  = H => e1, N1, c, sbar
+process Hww_mnucs  = H => e2, N2, c, sbar
+process Hww_tnucs  = H => e3, N3, c, sbar
+
+process Hww_bar_enuud  = H => E1, n1, ubar, d
+process Hww_bar_mnuud  = H => E2, n2, ubar, d
+process Hww_bar_tnuud  = H => E3, n3, ubar, d
+process Hww_bar_enucs  = H => E1, n1, cbar, s
+process Hww_bar_mnucs  = H => E2, n2, cbar, s
+process Hww_bar_tnucs  = H => E3, n3, cbar, s
+
+#Add hadronic
+
+process Hww_udud  = H => u, dbar, ubar, d
+process Hww_udcs  = H => u, dbar, cbar, s
+process Hww_csud  = H => c, sbar, ubar, d
+process Hww_cscs  = H => c, sbar, cbar, s
+
+unstable H (Hbb,
+            Hgg,
+            Hww_tnutnu,    Hww_mnumnu,    Hww_enuenu,
+            Hww_enuud,     Hww_mnuud,     Hww_tnuud,     Hww_enucs,     Hww_mnucs,     Hww_tnucs,
+            Hww_bar_enuud, Hww_bar_mnuud, Hww_bar_tnuud, Hww_bar_enucs, Hww_bar_mnucs, Hww_bar_tnucs,
+            Hww_udud,      Hww_udcs,      Hww_csud,      Hww_cscs
+            ) { ?auto_decays = true }
+
+simulate (mumu_nunuHH, mumu_ZHH)

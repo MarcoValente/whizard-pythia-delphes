@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  #Generation of Feynman diagrams and cross-section calculation
+  madgraph_mg:
+    image: scailfin/madgraph5-amc-nlo
+    volumes:
+      - $PWD/files:/files
+      
+  whizard:
+    image: whizard/whizard-weekly:master
+    volumes:
+      - $PWD/files:/files
+  
+  # whizard2:
+  #   image: whizard
+  #   volumes:
+  #     - $PWD/files:/files
+
+  #Delphes simulation
+  delphes:
+    image: valentem1992/delphes
+    volumes:
+      - $PWD/files/delphes_card_ATLAS_PileUp.tcl:/app/card.tcl
+      - $PWD/files/test.hepmc:/app/test.hepmc
+      - $PWD/files:/app/files
+    command: 
+      ./DelphesHepMC card.tcl files/output.root test.hepmc

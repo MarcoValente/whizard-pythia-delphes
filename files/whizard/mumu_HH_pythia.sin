@@ -1,0 +1,16 @@
+
+#Signal processes
+#process mumu_nunuHH = "mu-", "mu+" => numu, numubar, H, H
+#process mumu_nunuH  = "mu-", "mu+" => numu, numubar, H
+#process mumu_ZHH    = "mu-", "mu+" => Z, H, H              { $restrictions = "1+2 ~ Z" }
+process mumu_ZH     = "mu-", "mu+" => Z, b,bbar                 { $restrictions = "1+2 ~ Z && 4+5 ~ H" }
+
+#Parameters
+sqrts = 30 TeV
+n_events = 100
+sample_format = hepmc
+
+$shower_method = "PYTHIA6"
+$hadronization_method = "PYTHIA6"
+
+simulate (mumu_ZH)
