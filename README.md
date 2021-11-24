@@ -4,7 +4,7 @@ Docker-based setup to run Whizard, Pythia and Delphes simulation.
 ## Run Whizard cross-section calculation for HH at Muon Collider
 In order to run a simple Whizard-based cross-section calculation for HH at the muon-collider, you can execute this command:
 ```
-docker-compose run whizard bash /files/scripts/whizard.sh -i files/whizard/mumu_HH_xs.sin -r "15TeV" -s "sqrts = 30 TeV/sqrts = 15 TeV" -o "/files/output/test"
+docker-compose run whizard bash /files/scripts/whizard.sh -i files/whizard/mumu_HH_xs.sin -r "15TeV" -s "sqrts = 30 TeV/sqrts = 15 TeV" -o "/files/output"
 ```
 What is this doing? The `docker-compose run whizard` part of the command says that it needs to run the whizard service described in the [docker-compose.yml](docker-compose.yml) file. This service specifies which docker image to use and also which volumes to setup. The second part of the command specifies the bash command that needs to be executed inside the docker image. In this case, this corresponds to
 ```
