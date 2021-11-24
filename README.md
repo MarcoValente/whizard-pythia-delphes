@@ -16,3 +16,6 @@ This script and files loaded directly from the volume `/files` which corresponds
 - `-r` specifies the name of the run.
 - `-s` is used to substitute strings in the provided SINDARIN file. For example, ` -s "sqrts = 30 TeV/sqrts = 15 TeV"` will replace the string `sqrts = 30 TeV` with the other string `sqrts = 15 TeV`, resulting in a change to the total centre-of-mass energy of the muon collision.
 - `-o` specifies the output directory where output files will be stored. After executing our program everything should appear under your `files/output` directory. ;)
+
+### Make a $\sqrt{s}$ energy scan
+A scan of different centre-of-mass energies can be performed through the execution of the [files/scripts/xs_HH_whizard.py](files/scripts/xs_HH_whizard.py) in your terminal. This will simply run a sequence of different `docker-compose` commands in sequence to scan different $\sqrt{s}$ values.
