@@ -48,7 +48,7 @@ The pythia8 output will be stored under the `files/output/test_pythia_script` ou
 - `output.lhe`: this file is the output LHE file after decay of the Higgs bosons.
 - `output.hepmc`: this is the output HEPMC2 file containing the final state hadrons after parton showering and hardonization. This file will be our input for delphes simulation.
 
-## Delphes
+## Delphes: simulating the detector
 Once we have the HEPMC2 file produced by Pythia 8 and containing the final state particles of the decay, it's time to simulate things with Delphes. This can be done using the following command, exploiting the `cards/delphes_card_MuonColliderDet.tcl` delphes card
 
 ```
