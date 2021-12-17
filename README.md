@@ -1,6 +1,11 @@
 # whizard-pythia-delphes
 Docker-based setup to run Whizard, Pythia and Delphes simulation.
 
+## Install requirements
+First, ensure you have installed some useful packages
+```
+pip install -r requirements.txt
+```
 ## Run Whizard cross-section calculation for HH at Muon Collider
 In order to run a simple Whizard-based cross-section calculation for HH at the muon-collider, you can execute this command:
 ```
