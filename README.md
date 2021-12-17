@@ -23,3 +23,19 @@ A scan of different centre-of-mass energies can be performed through the executi
 python3 files/scripts/xs_HH_whizard.py
 ```
 This will simply run a sequence of different `docker-compose` commands to scan different $\sqrt{s}$ values.
+
+## Pythia8
+
+```
+docker-compose run pythia "/files/scripts/pythia.sh -i /files/output/whizard/mumu_HH_xs_restr_lhe/0.9TeV/mumu_nunuHH.lhe -r 0.9TeV -o /files/output/test_pythia_script/0.9TeV -c bbbb"
+```
+
+## Delphes
+
+```
+docker-compose run delphes ./DelphesHepMC2 cards/delphes_card_MuonColliderDet.tcl delphes_output.root /files/output/test_pythia_script/30.0TeV/output.hepmc
+```
+
+```
+docker-compose run delphes make display && root -l "examples/EventDisplay.C(\"cards/delphes_card_ATLAS.tcl\",\"/files/output/delphes/30.0TeV/delphes_output_ATLAS.root\")"
+```

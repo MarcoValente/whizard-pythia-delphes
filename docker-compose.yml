@@ -1,28 +1,48 @@
 version: '3'
 
+x-volumes:
+    &default-volumes
+    volumes:
+        - $PWD/files:/files
+
+x-environment:
+    &default-environment
+    environment:
+        - DISPLAY=host.docker.internal:0
+        - USER=root
+
+##################################################
+# """Services"""
+##################################################
+
 services:
   #Generation of Feynman diagrams and cross-section calculation
   madgraph_mg:
+    << : *default-environment
+    << : *default-volumes
     image: scailfin/madgraph5-amc-nlo
-    volumes:
-      - $PWD/files:/files
       
   whizard:
+    << : *default-environment
+    << : *default-volumes
     image: whizard/whizard-weekly:master
-    volumes:
-      - $PWD/files:/files
   
   # whizard2:
+  #   << : *default-environment
+  #   << : *default-volumes
   #   image: whizard
   #   volumes:
   #     - $PWD/files:/files
 
+  pythia:
+    << : *default-environment
+    << : *default-volumes
+    image: matthewfeickert/pythia-python
+
   #Delphes simulation
   delphes:
-    image: valentem1992/delphes
-    volumes:
-      - $PWD/files/delphes_card_ATLAS_PileUp.tcl:/app/card.tcl
-      - $PWD/files/test.hepmc:/app/test.hepmc
-      - $PWD/files:/app/files
-    command: 
-      ./DelphesHepMC card.tcl files/output.root test.hepmc
+    << : *default-environment
+    << : *default-volumes
+    image: valentem1992/delphes:3.5.0
+    # command: 
+    #   ./DelphesHepMC card.tcl files/output.root test.hepmc
