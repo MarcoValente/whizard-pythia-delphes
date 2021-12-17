@@ -1,0 +1,10 @@
+
+#Signal processes
+process mumu_nunuHH = "mu-", "mu+" => numu, numubar, H, H
+
+#Parameters
+sqrts = 30 TeV
+n_events = 10000
+sample_format = lhef
+
+simulate (mumu_nunuHH)
