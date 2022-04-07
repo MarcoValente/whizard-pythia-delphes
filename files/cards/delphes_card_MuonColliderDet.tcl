@@ -1627,7 +1627,7 @@ module FastJetFinder FastJetFinderAKt {
 
     # algorithm: 1 CDFJetClu, 2 MidPoint, 3 SIScone, 4 kt, 5 Cambridge/Aachen, 6 antikt, 7 anti-kt with winner-take-all axis (for N-subjettiness), 8 N-jettiness, 9 Valencia
     set JetAlgorithm 6
-    set ParameterR 0.4
+    set ParameterR 0.5
 
     set JetPTMin 20.0
 }
