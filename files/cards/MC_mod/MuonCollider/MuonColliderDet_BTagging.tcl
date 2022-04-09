@@ -545,3 +545,20 @@ module BTagging BTagging_WP90_R15_inclusive {
  set BitNumber 2
  source MuonCollider/MuonColliderDet_BTag_90.tcl
 }
+
+module BTagging BTagging_WP50_AKT05 {
+	set JetInputArray FastJetFinderAKt/AKTjets
+	set BitNumber 0
+	source MuonCollider/MuonColliderDet_BTag_50.tcl
+}
+
+module BTagging BTagging_WP70_AKT05 {
+	set JetInputArray FastJetFinderAKt/AKTjets
+	set BitNumber 1
+	source MuonCollider/MuonColliderDet_BTag_70.tcl
+}
+module BTagging BTagging_WP90_AKT05 {
+	set JetInputArray FastJetFinderAKt/AKTjets
+	set BitNumber 2
+	source MuonCollider/MuonColliderDet_BTag_90.tcl
+}

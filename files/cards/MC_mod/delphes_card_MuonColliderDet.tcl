@@ -144,7 +144,7 @@ set ExecutionPath {
     JetMomentumSmearing_VLCR15N6
     JetMomentumSmearing_VLCR15_inclusive
 
-
+    JetFlavorAssociation_AKT05
     JetFlavorAssociation_R02N2
     JetFlavorAssociation_R02N3
     JetFlavorAssociation_R02N4
@@ -187,6 +187,9 @@ set ExecutionPath {
     JetFlavorAssociation_R12_inclusive
     JetFlavorAssociation_R15_inclusive
 
+    BTagging_WP50_AKT05
+    BTagging_WP70_AKT05
+    BTagging_WP90_AKT05
 
     BTagging_WP50_R02N2
     BTagging_WP70_R02N2
