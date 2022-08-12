@@ -32,7 +32,9 @@ echo ""
 #Executing the script
 sleep 2
 mkdir -p $MAINDIRNAME && cd $MAINDIRNAME
+ls
 cp "$PREFIXDIR$sin_name" $STEERINGSIN_NAME
+ls
 if [ ! -z "${substitute_str}" ]; 
     then 
     echo "Replacing string $substitute_str" 
