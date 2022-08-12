@@ -21,6 +21,7 @@ STEERINGSIN_NAME="streering.sin"
 
 echo "MAINDIRNAME      : $MAINDIRNAME";
 echo "STEERINGSIN_NAME : $STEERINGSIN_NAME";
+echo "PREFIXDIR        : $PREFIXDIR";
 echo ""
 echo "-----------------------------------------------------------"
 echo "sin file              : \"$sin_name\"";
