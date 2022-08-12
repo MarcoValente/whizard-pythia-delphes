@@ -16,7 +16,7 @@ do
 done
 
 MAINDIRNAME="/tmp/tmp_$RANDOM/$run_name"
-PREFIXDIR="/"
+PREFIXDIR="$PWD/"
 STEERINGSIN_NAME="streering.sin"
 
 echo "MAINDIRNAME      : $MAINDIRNAME";
