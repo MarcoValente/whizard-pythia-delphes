@@ -1,0 +1,6 @@
+executable              = files/job_submission/condor/welcome.sh
+arguments               = $(ClusterId)$(ProcId)
+output                  = files/job_submission/log/welcome.$(ClusterId).$(ProcId).out
+error                   = files/job_submission/log/welcome.$(ClusterId).$(ProcId).err
+log                     = files/job_submission/log/welcome.$(ClusterId).log
+queue

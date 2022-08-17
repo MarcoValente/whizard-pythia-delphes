@@ -1,0 +1,10 @@
+executable              = files/job_submission/condor/whizard_singularity.sh 
+arguments               = /afs/cern.ch/user/v/valentem/MuonCollider/whizard-pythia-delphes/files/whizard/HH_kl/MUONCOLL_hh_3_k1.sin
+output                  = files/job_submission/log/whizard_singularity.$(ClusterId).$(ProcId).out
+error                   = files/job_submission/log/whizard_singularity.$(ClusterId).$(ProcId).err
+log                     = files/job_submission/log/whizard_singularity.$(ClusterId).log
+
+transfer_input_files = /afs/cern.ch/user/v/valentem/work/MuonCollider/Singularity/wizhard_2022-08-12.sif files/whizard/HH_kl/MUONCOLL_hh.sin
+
+#+JobFlavour = "tomorrow"
+queue
