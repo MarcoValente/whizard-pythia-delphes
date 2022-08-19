@@ -42,6 +42,44 @@ std::map<HiggsChannel, std::string> channel_map = {
   {bbgg,"bbgg"}
 };
 
+bool filterHiggsDecay(Event& event, HiggsChannel higgs_channel) {
+  // Loop over all particles in the event record.
+  bool passEvent = true;
+
+  unsigned int n_gl_from_H = 0;
+  unsigned int n_b_from_H = 0;
+  unsigned int n_W_from_H = 0;
+
+  for (int i = 0; i < event.size(); ++i) {
+    Particle & p = event[i];
+
+    // Skip if particle kind selection criteria not fulfilled.
+    if (p.isGluon() && ((abs(event[p.mother1()].id())==25) || (abs(event[p.mother2()].id())==25))) ++n_gl_from_H;
+    if ((abs(p.id()) == 5) && ((abs(event[p.mother1()].id())==25) || (abs(event[p.mother2()].id())==25))) ++n_b_from_H;
+    if ((abs(p.id()) == 24) && ((abs(event[p.mother1()].id())==25) || (abs(event[p.mother2()].id())==25))) ++n_b_from_H;
+
+  // End of particle loop. Done.
+  }
+
+  switch (higgs_channel) {
+    case bbbb:
+      //do nothing in this case as bbbb decays are always satisfied
+      break;
+    case bbWW:
+      if((n_b_from_H+n_W_from_H)!=4) std::cerr << " The total number of b-quarks and Ws coming from a higgs is not 4. Please investigate. n_b_from_H = " << n_b_from_H << " , n_W_from_H =" << n_W_from_H << std::endl;
+      passEvent = (n_b_from_H==2) && (n_W_from_H==2);
+      break;
+    case bbgg:
+      if((n_b_from_H+n_gl_from_H)!=4) std::cerr << " The total number of b-quarks and gluons coming from a higgs is not 4. Please investigate. n_b_from_H = " << n_b_from_H << " , n_gl_from_H =" << n_gl_from_H << std::endl;
+      passEvent = (n_b_from_H==2) && (n_gl_from_H==2);
+      break;
+    case NONE:
+      break;
+  }
+
+  return passEvent;
+}
+
 int main(int argc, char *argv[]) {
 
   std::string in_lhe_file    = "";
@@ -49,6 +87,7 @@ int main(int argc, char *argv[]) {
   std::string out_lhe_file   = "output.lhe";
   HiggsChannel higgs_channel = NONE;
   bool verbose               = false;
+  bool applyFilter           = true;
 
   if(argc >1) { //Find HH channel
     for (std::pair<HiggsChannel, std::string> _p : channel_map) {
@@ -68,6 +107,7 @@ int main(int argc, char *argv[]) {
   std::cout << "out_hepmc_file = \"" << out_hepmc_file << "\"" << std::endl;
   std::cout << "out_lhe_file   = \"" << out_lhe_file << "\"" << std::endl;
   std::cout << "verbose        = " << (verbose ? "true" : "false") << "" << std::endl;
+  std::cout << "applyFilter    = " << (applyFilter ? "true" : "false") << "" << std::endl;
   std::cout << "*********************************************************" << std::endl;
 
   HepMC::Pythia8ToHepMC topHepMC;
@@ -136,6 +176,10 @@ int main(int argc, char *argv[]) {
   myLHA.initLHEF();
 
   // Begin event loop; generate until none left in input file.
+
+  unsigned int nEventsAll        = 0;
+  unsigned int nEventsPassFilter = 0;
+
   for (int iEvent = 0; ; ++iEvent) {
 
     // Generate events, and check whether generation failed.
@@ -148,6 +192,15 @@ int main(int argc, char *argv[]) {
       if (++iAbort < nAbort) continue;
       break;
     }
+
+    nEventsAll++;
+
+    //apply filter here to remove unwanted decays of the Higgs
+    bool acceptEvent = filterHiggsDecay(pythia.event,higgs_channel);
+
+    if(applyFilter && !acceptEvent) continue;
+    
+    nEventsPassFilter++;
 
     if(verbose) { 
       pythia.event.list();
@@ -180,6 +233,14 @@ int main(int argc, char *argv[]) {
 
   // Write endtag. Overwrite initialization info with new cross sections.
   myLHA.closeLHEF(true);
+
+  float filterEff = float(nEventsPassFilter)/float(nEventsAll);
+
+  std::cout << "------------------------------------------" << std::endl;
+  std::cout << " - Number of processed events: " << nEventsAll << std::endl;
+  std::cout << " - Number of accepted events : " << nEventsPassFilter << std::endl;
+  std::cout << " - Filter efficiency         : " << filterEff << std::endl;
+  std::cout << "------------------------------------------" << std::endl;
 
   // Done.
   return 0;
