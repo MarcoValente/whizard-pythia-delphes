@@ -1,0 +1,11 @@
+
+#Background processes
+
+process mumu_bbss = "mu-", "mu+" => b, bbar, s, sbar
+
+#Parameters
+sqrts = 3 TeV
+n_events = 1000000
+sample_format = lhef
+
+simulate (mumu_bbss)
