@@ -1,3 +1,5 @@
 *__pycache__*
 files/output*
 *.code-workspace*
+files/job_submission/log
+venv

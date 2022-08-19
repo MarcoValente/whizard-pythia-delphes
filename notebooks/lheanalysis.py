@@ -109,9 +109,14 @@ def getQuantities(evt):
         'nmu': [],
         'ntau': [],
         'nlep': [],
+        'nHiggs': [],
+        'mHH': [],
+        'HH_pt': [],
         'mtautau': [],
         'mee': [],
         'mmumu': [],
+        'H1_pt': [],
+        'H2_pt': [],
     }
 
     #Other event-level quantities to fill
@@ -119,9 +124,12 @@ def getQuantities(evt):
     nb = 0
     ngluons=0
     ne,nmu,ntau,nlep=0,0,0,0
+    nHiggs=0
     tautau_fvec=None
     ee_fvec=None
     mumu_fvec=None
+    HH_fvec=None
+    H_vecs=None
 
     #Looping over particles
     for p in evt.particles:
@@ -156,6 +164,12 @@ def getQuantities(evt):
                     ntau+=1
                     if    tautau_fvec is None: tautau_fvec=fvec
                     else: tautau_fvec = tautau_fvec+fvec
+            if ID.isHiggs(id):
+                nHiggs+=1
+                if HH_fvec is None: HH_fvec=fvec
+                else: HH_fvec = HH_fvec+fvec
+                if H_vecs is None: H_vecs=[fvec]
+                else: H_vecs += [fvec]
 
     #Fill event-level quantities
     if len(vs_fvec) > 0:
@@ -171,9 +185,19 @@ def getQuantities(evt):
     ret_dict['ne'] += [ne]
     ret_dict['nmu'] += [nmu]
     ret_dict['ntau'] += [ntau]
+    ret_dict['nHiggs'] += [nHiggs]
     if ntau==2:  ret_dict['mtautau'] += [tautau_fvec.mass]
     if ne==2:    ret_dict['mee']     += [ee_fvec.mass]
     if nmu == 2: ret_dict['mmumu']   += [mumu_fvec.mass]
+    if nHiggs == 2: 
+        ret_dict['mHH']  += [HH_fvec.mass]
+        ret_dict['HH_pt']  += [HH_fvec.pt]
+        if H_vecs[0].pt > H_vecs[1].pt:
+            ret_dict['H1_pt'] += [H_vecs[0].pt]
+            ret_dict['H2_pt'] += [H_vecs[1].pt]
+        else:
+            ret_dict['H1_pt'] += [H_vecs[1].pt]
+            ret_dict['H2_pt'] += [H_vecs[0].pt]
 
     return ret_dict
 
