@@ -6,7 +6,6 @@ from pprint import pprint as p
 
 parser = OptionParser('submit_grid [OPTIONS] [inDS]')
 parser.add_option("-d", "--dry-run",    action='store_true', default=False, help="Enable dry-run")
-parser.add_option("-c", "--hh-channel", default='NONE', choices=['NONE','bbbb','bbgg'], type='choice', help="Output channel")
 
 (options, args) = parser.parse_args()
 p('Options:')
@@ -14,26 +13,21 @@ p(vars(options))
 p('Arguments:')
 p(args)
 
-applyFilter=(options.hh_channel!='NONE')
-
-
 for inDS in args:
-    proc_string='.'.join(inDS.split('.')[3:5])
-    info=f'{proc_string}.{options.hh_channel}'
+    proc_string='.'.join(inDS.split('.')[3:6])
+    info=f'{proc_string}'
     
-    docker_image="docker://matthewfeickert/pythia-python"
+    docker_image="docker://valentem1992/delphes:3.5.0"
     outputs = {
-               'lhe':'*pythia.lhe',
-               'hepmc':'*pythia.hepmc',
-               #'out':'*',
+               'root':'*.root',
+               'out':'*',
               }
-    singularity_exec = f"bash pythia.sh -i %IN -c {options.hh_channel}"
-    if applyFilter: singularity_exec+=" -f true"
+    singularity_exec = f"bash delphes.sh -i %IN"
     
     username=os.environ.get('USER')
     assert username!='', "Username variable $USER is empty"
     
-    outDS=f"user.{username}.pythia.{info}.{dt.now().strftime('%y%m%d_%H%M')}"
+    outDS=f"user.{username}.delphes.{info}.{dt.now().strftime('%y%m%d_%H%M')}"
     
     command=["prun", "--forceStaged", 
              "--exec", singularity_exec,

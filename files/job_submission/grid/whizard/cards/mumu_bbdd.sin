@@ -4,8 +4,6 @@
 process mumu_bbdd = "mu-", "mu+" => b, bbar, d, dbar
 
 #Parameters
-sqrts = 3 TeV
-n_events = 1000000
 sample_format = lhef
 
 simulate (mumu_bbdd)

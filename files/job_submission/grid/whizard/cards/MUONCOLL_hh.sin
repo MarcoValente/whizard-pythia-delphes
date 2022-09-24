@@ -48,10 +48,7 @@ process hhdec = "mu+", "mu-" => "H", "H", NNU, ANU
 #Call O'Mega and compile the matrix elements 
 compile
 
-sqrts = 3 TeV
-seed = 1265
 cuts = all M > 150 GeV [NNU, ANU]
-n_events = 10000
 sample_format = lhef
 
 # Simulate the full process

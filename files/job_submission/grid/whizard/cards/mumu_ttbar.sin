@@ -3,8 +3,6 @@
 process mumu_ttbar = "mu-", "mu+" => t,tbar
 
 #Parameters
-sqrts = 3 TeV
-n_events = 1000000
 sample_format = lhef
 
 simulate (mumu_ttbar)
