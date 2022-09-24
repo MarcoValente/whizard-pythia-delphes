@@ -89,7 +89,8 @@ class looper():
                 log.warning(f'Impossible to find triggers for event (rnum,enum)=({rnum},{enum}).')
     
     def addSelectionToEvent(self,event,sel,name):
-        event[name] = sel(event,trig_expr=self.trig_expr if self.addTriggers else '')
+        if name not in event.fields:
+            event[name] = sel(event,trig_expr=self.trig_expr if self.addTriggers else '')
 
     def _get(self,updateFunction,variable,*args,selection=cs.baseline,weight=None,**kwargs):
         import concurrent.futures
@@ -103,7 +104,7 @@ class looper():
 
         values=[]
         for file_index,event in enumerate(gen):
-            log.info('Looping on file {0} named \'{1}\''.format(file_index,self.input_files[file_index]))
+            # log.info('Looping on file {0} named \'{1}\''.format(file_index,self.input_files[file_index]))
             self.addVariablesToEvent(event)
             self.addSelectionToEvent(event,selection,selection.__name__)
             

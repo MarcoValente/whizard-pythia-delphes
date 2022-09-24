@@ -1,14 +1,30 @@
 import numpy as np
+import re
+from copy import deepcopy
 
 default_lumi=100 #fb-1
 
-sample_dict = {
-    'kl0'   : {'xs' : 1.7886309E+00, 'xs_err' : 2.36E-04, 'br': 1.0, 'mc_eff' : 1.0}, #fb
-    'kl1'   : {'xs' : 8.4135252E-01, 'xs_err' : 1.59E-04, 'br': 1.0, 'mc_eff' : 1.0}, #fb
-    'kl2p5' : {'xs' : 9.4704270E-01, 'xs_err' : 1.60E-04, 'br': 1.0, 'mc_eff' : 1.0}, #fb
-    'kl5'   : {'xs' : 5.1948298E+00, 'xs_err' : 5.91E-04, 'br': 1.0, 'mc_eff' : 1.0}, #fb
-    'klm1'  : {'xs' : 3.5504185E+00, 'xs_err' : 3.76E-04, 'br': 1.0, 'mc_eff' : 1.0}, #fb
+sample_dict = { #10 TeV
+    'kl0.bbbb':   {'xs': 5.627956910000001,  'xs_err': 0.000823,               'br': 0.34, 'mc_eff' : 1.0},
+    'kl1.bbbb':   {'xs': 3.38126891,         'xs_err': 0.0006586999999999999,  'br': 0.34, 'mc_eff' : 1.0},
+    'kl2p5.bbbb': {'xs': 3.41438458,         'xs_err': 0.0006220999999999999,  'br': 0.34, 'mc_eff' : 1.0},
+    'kl5.bbbb':   {'xs': 12.546061300000002, 'xs_err': 0.0016919999999999997,  'br': 0.34, 'mc_eff' : 1.0},
+    'klm1.bbbb':  {'xs': 9.69042831,         'xs_err': 0.001233,               'br': 0.34, 'mc_eff' : 1.0},
+    'bbbb':       {'xs': 0.214579739,        'xs_err': 0.0005937000000000001,  'br': 1.0, 'mc_eff' : 1.0},
+    'bbcc':       {'xs': 0.5642611098,       'xs_err': 0.0014242000000000002,  'br': 1.0, 'mc_eff' : 1.0},
+    'bbdd':       {'xs': 1.335695481632653,  'xs_err': 0.054885714285714295,   'br': 1.0, 'mc_eff' : 1.0},
+    'bbuu':       {'xs': 1.4934416640000001, 'xs_err': 0.062472,               'br': 1.0, 'mc_eff' : 1.0},
+    'ttbar':      {'xs': 1.7288218499999999, 'xs_err': 0.00010659999999999999, 'br': 1.0, 'mc_eff' : 1.0}
 }
+
+_new_dict = {}
+for sn,sd in sample_dict.items():
+    if re.match(r'kl.*bbbb',sn):
+        #Create bbgg dictionaries
+        newname=sn.replace('bbbb','bbgg')
+        _new_dict[newname] = deepcopy(sd)
+        _new_dict[newname]['br'] = 0.1
+sample_dict.update(_new_dict)
 
 def getXsWeight(sample_name,nsim,lumi=default_lumi):
     assert sample_name in sample_dict, f'Impossible to find sample \'{sample_name}\' inside xs_dict ({sample_dict})'

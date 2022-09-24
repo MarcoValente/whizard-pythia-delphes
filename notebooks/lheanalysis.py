@@ -117,6 +117,10 @@ def getQuantities(evt):
         'mmumu': [],
         'H1_pt': [],
         'H2_pt': [],
+        'bs_pt': [],
+        'bs_eta': [],
+        'firb_pt': [],
+        'firb_eta': [],
     }
 
     #Other event-level quantities to fill
@@ -130,6 +134,9 @@ def getQuantities(evt):
     mumu_fvec=None
     HH_fvec=None
     H_vecs=None
+    bs_pt=None
+    bs_eta=None
+    lead_b=None
 
     #Looping over particles
     for p in evt.particles:
@@ -140,7 +147,7 @@ def getQuantities(evt):
         #Filling final state particles
         ##########
         if int(st) == 1:
-            #Compute quantities here
+            #Compute event quantities here
             if abs(id) == ID.vmu:
                 ret_dict['vbf_vmu_pz'] += [abs(fvec.pz)]
                 ret_dict['vbf_vmu_pt'] += [fvec.pt]
@@ -148,6 +155,13 @@ def getQuantities(evt):
                 vs_fvec += [fvec]
             if ID.isB(id):
                 nb += 1
+                if bs_pt is None: bs_pt=[fvec.pt]
+                else: bs_pt+=[fvec.pt]
+                if bs_eta is None: bs_eta=[fvec.eta]
+                else: bs_eta+=[fvec.eta]
+                if lead_b is None: lead_b = fvec
+                else:
+                    if fvec.pt >= lead_b.pt: lead_b=fvec
             if ID.isGluon(id):
                 ngluons += 1
             if ID.isLepton(id):
@@ -180,6 +194,10 @@ def getQuantities(evt):
         ret_dict['MET'] += [_met_fvec.pt]
         ret_dict['MEL'] += [abs(_met_fvec.pz)]
     ret_dict['nb'] += [nb]
+    ret_dict['bs_pt'] += bs_pt
+    ret_dict['bs_eta'] += bs_eta
+    ret_dict['firb_pt'] += [lead_b.pt]
+    ret_dict['firb_eta'] += [lead_b.eta]
     ret_dict['ngluons'] += [ngluons]
     ret_dict['nlep'] += [nlep]
     ret_dict['ne'] += [ne]
