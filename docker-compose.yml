@@ -18,13 +18,11 @@ x-environment:
 services:
   #Generation of Feynman diagrams and cross-section calculation
   madgraph_mg:
-    << : *default-environment
-    << : *default-volumes
+    << : [*default-environment,*default-volumes]
     image: scailfin/madgraph5-amc-nlo
       
   whizard:
-    << : *default-environment
-    << : *default-volumes
+    << : [*default-environment,*default-volumes]
     image: whizard/whizard-weekly:master
   
   # whizard2:
@@ -35,14 +33,12 @@ services:
   #     - $PWD/files:/files
 
   pythia:
-    << : *default-environment
-    << : *default-volumes
+    << : [*default-environment,*default-volumes]
     image: matthewfeickert/pythia-python
 
   #Delphes simulation
   delphes:
-    << : *default-environment
-    << : *default-volumes
+    << : [*default-environment,*default-volumes]
     image: valentem1992/delphes:3.5.0
     # command: 
     #   ./DelphesHepMC card.tcl files/output.root test.hepmc
