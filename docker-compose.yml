@@ -34,7 +34,7 @@ services:
 
   pythia:
     << : [*default-environment,*default-volumes]
-    image: matthewfeickert/pythia-python
+    image: matthewfeickert/pythia8.303-hepmc2.06.11-fastjet3.3.4-python3.8
 
   #Delphes simulation
   delphes:
